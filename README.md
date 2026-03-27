@@ -1,4 +1,4 @@
-# Loan Default Prediction (Zindi Competition)
+# Loan Default Prediction
 
 ## 📌 Problem
 Predict the likelihood of a customer defaulting on a loan using financial and macroeconomic data.
@@ -33,7 +33,7 @@ loan-default-prediction/
 │   ├── 01_eda.ipynb
 │   ├── 02_feature_engineering.ipynb
 │   ├── 03_modeling.ipynb
-│   └── 04_submission.ipynb
+│   └── 04_predictions.ipynb
 │
 ├── src/
 │   ├── __init__.py
@@ -55,7 +55,7 @@ loan-default-prediction/
 ├── outputs/
 │   ├── figures/
 │   ├── logs/
-│   └── submissions/
+│   └── predictions/
 │
 ├── requirements.txt
 ├── README.md
