@@ -1,0 +1,14 @@
+model:
+  type: lightgbm
+
+training:
+  n_splits: 5
+  random_state: 42
+
+features:
+  use_economic_data: true
+  use_customer_aggregates: true
+  use_loan_aggregates: true
+
+threshold:
+  optimize: true

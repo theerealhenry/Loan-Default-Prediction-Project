@@ -1,0 +1,22 @@
+# Data
+data/raw/
+data/interim/
+data/processed/
+
+# Models
+models/
+
+# Outputs
+outputs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment
+.env
+venv/
