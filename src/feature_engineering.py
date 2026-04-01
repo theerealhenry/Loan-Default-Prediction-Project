@@ -16,7 +16,9 @@ def create_financial_features(df):
         df["Total_Amount_to_Repay"] / (df["Total_Amount"] + 1)
     )
 
-    df["loan_pressure"] = df["Total_Amount"] / (df["duration"] + 1)
+    df["loan_pressure"] = (
+        df["Total_Amount"] / (df["duration"] + 1)
+    )
 
     return df
 
@@ -34,15 +36,18 @@ def create_time_features(df):
 
 
 # ======================
-# 3. CUSTOMER FEATURES (LEAKAGE SAFE)
+# 3. CUSTOMER FEATURES (LEAKAGE-SAFE ✅)
 # ======================
 def create_customer_features(df):
     df = df.copy()
 
-    df = df.sort_values("disbursement_date")
+    # 🔥 CRITICAL: sort by customer + time
+    df = df.sort_values(["customer_id", "disbursement_date"])
 
+    # Number of previous loans
     df["loan_count"] = df.groupby("customer_id").cumcount()
 
+    # Past defaults ONLY (no future leakage)
     df["past_defaults"] = (
         df.groupby("customer_id")["target"]
         .cumsum()
@@ -51,9 +56,16 @@ def create_customer_features(df):
 
     df["past_defaults"] = df["past_defaults"].fillna(0)
 
-    df["customer_default_rate"] = (
-        df["past_defaults"] / (df["loan_count"] + 1)
+    # Total past loans
+    df["total_loans"] = df["loan_count"]
+
+    # 🔥 SAFE default rate (no leakage)
+    df["safe_default_rate"] = (
+        df["past_defaults"] /
+        df["loan_count"].replace(0, np.nan)
     )
+
+    df["safe_default_rate"] = df["safe_default_rate"].fillna(0)
 
     return df
 
@@ -96,7 +108,8 @@ def feature_engineering(df, is_train: bool = True):
     df = create_categorical_features(df)
     df = create_interactions(df)
 
-    if isinstance(is_train, bool) and is_train and "target" in df.columns:
+    # Apply ONLY for training data
+    if is_train and "target" in df.columns:
         df = create_customer_features(df)
 
     return df
