@@ -4,9 +4,9 @@ from src.config import RAW_DATA_DIR
 
 
 def load_data():
-    train_path = os.path.join(RAW_DATA_DIR, "train.csv")
-    test_path = os.path.join(RAW_DATA_DIR, "test.csv")
-    econ_path = os.path.join(RAW_DATA_DIR, "economic_indicators.csv")
+    train_path = os.path.join(RAW_DATA_DIR, "D:\\AI4EAC- Loan_default_prediction\\data\\raw\\Train.csv")
+    test_path = os.path.join(RAW_DATA_DIR, "D:\\AI4EAC- Loan_default_prediction\\data\\raw\\Test.csv")
+    econ_path = os.path.join(RAW_DATA_DIR, "D:\\AI4EAC- Loan_default_prediction\\data\\raw\\economic_indicators.csv")
 
     train = pd.read_csv(train_path)
     test = pd.read_csv(test_path)
