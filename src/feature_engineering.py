@@ -112,4 +112,24 @@ def feature_engineering(df, is_train: bool = True):
     if is_train and "target" in df.columns:
         df = create_customer_features(df)
 
+    df = encode_features(df)
+
+    return df
+
+# ======================
+# 7. ENCODING FEATURES
+# ======================
+def encode_features(df):
+    df = df.copy()
+
+    # Encode categorical columns
+    categorical_cols = [
+        "loan_type",
+        "country_id"
+    ]
+
+    for col in categorical_cols:
+        if col in df.columns:
+            df[col] = df[col].astype("category").cat.codes
+
     return df
