@@ -1,0 +1,185 @@
+# =========================================================
+
+# 🧠 LOAN DEFAULT PREDICTION — PRODUCTION CONFIGURATION
+
+# =========================================================
+
+
+project:
+  name: loan_default_prediction
+  version: 1.0.0
+  random_state: 42
+
+# =========================================================
+
+# 📂 DATA PATHS
+
+# =========================================================
+
+paths:
+  train_data: "D:/AI4EAC- Loan_default_prediction/data/processed/train_merged.parquet"
+  test_data: "D:/AI4EAC- Loan_default_prediction/data/processed/test_merged.parquet"
+
+  model_output: "D:/AI4EAC- Loan_default_prediction/models/final_lgb_model.pkl"
+  features_output: "D:/AI4EAC- Loan_default_prediction/models/final_features.pkl"
+  threshold_output: "D:/AI4EAC- Loan_default_prediction/models/threshold.json"
+
+  predictions_output: "D:/AI4EAC- Loan_default_prediction/outputs/submissions/final_submission(1).csv"
+
+# =========================================================
+
+# 🧠 FEATURE CONFIGURATION
+
+# =========================================================
+
+features:
+
+# Columns to drop (leakage + identifiers)
+
+  drop_cols:
+    - ID
+    - target
+    - customer_id
+    - tbl_loan_id
+    - lender_id
+    - disbursement_date
+    - due_date
+    - country_name
+    - country
+
+
+  # 🚨 leakage-prone
+    - loan_count
+    - past_defaults
+    - total_loans
+    - safe_default_rate
+
+
+# Explicitly removed weak features
+
+  remove_low_signal:
+    - country_id
+    - macro_risk_index
+
+# Remove unstable macro features
+
+  remove_macro_keywords:
+    - inflation
+    - interest
+    - exchange
+
+  # Final selected features (locked)
+
+  final_features:
+    - repayment_ratio
+    - Amount_Funded_By_Lender
+    - loan_pressure
+    - Total_Amount_to_Repay
+    - Total_Amount
+    - Lender_portion_Funded
+    - month
+    - duration
+    - loan_type
+    - log_amount
+    - year
+    - New_versus_Repeat
+    - is_new_customer
+    - new_large_loan
+    - unemployment_rate
+
+# =========================================================
+
+# ⚙️ PREPROCESSING
+
+# =========================================================
+
+preprocessing:
+  categorical_encoding: category_codes
+  handle_missing: fill_zero
+  align_test_columns: true
+
+# =========================================================
+
+target: target
+
+# 🤖 MODEL CONFIGURATION
+
+# =========================================================
+
+model:
+  type: lightgbm
+
+  parameters:
+    n_estimators: 1500
+    learning_rate: 0.03
+    num_leaves: 128
+    max_depth: -1
+    min_child_samples: 20
+    subsample: 0.9
+    colsample_bytree: 0.9
+    reg_alpha: 0.05
+    reg_lambda: 0.05
+    n_jobs: -1
+
+  # Class imbalance handling
+  use_scale_pos_weight: true
+
+#training:
+#  early_stopping: 50
+#  verbose: 0
+
+# =========================================================
+
+# 🧪 VALIDATION STRATEGY
+
+# =========================================================
+
+validation:
+  type: time_based
+  n_splits: 5
+  metric: f1
+
+# =========================================================
+
+# 🎯 THRESHOLD OPTIMIZATION
+
+# =========================================================
+
+threshold:
+  search_min: 0.05
+  search_max: 0.50
+  search_step: 0.01
+  final_threshold: 0.12
+
+# =========================================================
+
+# 📊 TRAINING SETTINGS
+
+# =========================================================
+
+training:
+  early_stopping: 50
+  verbose: 0
+  use_oof: true
+  save_oof_predictions: true
+
+# =========================================================
+
+# 🧾 LOGGING
+
+# =========================================================
+
+logging:
+  save_cv_scores: true
+  save_feature_importance: true
+  save_predictions: true
+
+# =========================================================
+
+# 🚀 DEPLOYMENT SETTINGS
+
+# =========================================================
+
+deployment:
+  enforce_feature_order: true
+  require_same_preprocessing: true
