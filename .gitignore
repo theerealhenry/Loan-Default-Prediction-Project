@@ -20,3 +20,32 @@ __pycache__/
 # Environment
 .env
 venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Data
+data/
+*.parquet
+*.csv
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Logs
+*.log
+*.out
+
+# CatBoost logs
+catboost_info/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+
+# Large files
+models/*.pkl
+models/*.joblib
