@@ -84,13 +84,14 @@ with col1:
 
     total_amount = st.number_input(
     "Total Loan Amount",
-    100.0, 100000.0, 5000.0,
+    min_value=0.0,
+    value=5000.0,
     help="Total amount borrowed by the customer"
     )
-    total_repay = st.number_input("Total Amount to Repay", 100.0, 150000.0, 6000.0)
+    total_repay = st.number_input("Total Amount to Repay", min_value=0.0, value=6000.0)
     amount_funded = st.number_input(
     "Amount Funded by Lender",
-    0.0, 100000.0, 5000.0,
+    min_value=0.0, value=5000.0,
     help="Portion of the loan funded by the institution"
     )
     lender_portion = st.slider(
@@ -162,7 +163,7 @@ input_dict = {
     "year": year,
     "loan_type": loan_type,
     "New_versus_Repeat": new_repeat,
-    "unemployment_rate": unemployment_rate,  # ✅ FIXED
+    "unemployment_rate": unemployment_rate, 
 }
 
 # =========================================================
