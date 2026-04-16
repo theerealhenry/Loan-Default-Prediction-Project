@@ -49,3 +49,6 @@ catboost_info/
 # Large files
 models/*.pkl
 models/*.joblib
+
+# personal branding image
+streamlit_app/assets/
