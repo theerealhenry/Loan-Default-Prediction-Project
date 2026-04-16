@@ -188,13 +188,108 @@ docker run -p 8501:8501 loan-default-risk-app
 ---
 ## 📂 Project Structure
 
-streamlit_app/     → UI (Streamlit frontend)
-src/               → ML pipeline (features, modeling, preprocessing)
-models/            → Trained models & artifacts
-configs/           → YAML configuration files
-data/              → Raw & processed datasets
-notebooks/         → Experimentation & research
-
+```
+loan-default-prediction/
+│
+├── configs/                          # Configuration files
+│   ├── config.yaml                   # Experiment configurations
+│   └── config_final.yaml             # Final production config
+│
+├── data/                             # Data storage
+│   ├── raw/                          # Original untouched data
+│   └── processed/                    # Cleaned & feature-engineered data
+│
+├── docs/                             # Documentation
+│   └── model_spec.md                 # Model design & specifications
+│
+├── models/                           # Trained model artifacts
+│   ├── final_model.pkl
+│   ├── final_lgb_model.pkl
+│   ├── features.pkl
+│   ├── final_features.pkl
+│   ├── final_features_oof_v1.pkl
+│   ├── final_features_advanced_v1.pkl
+│   ├── threshold.json
+│   └── best_threshold.json
+│
+├── notebooks/                        # Research & experimentation notebooks
+│   ├── 00_data_validation.ipynb
+│   ├── 01_advanced_eda.ipynb
+│   ├── 02_pipeline_validation.ipynb
+│   ├── 03_model_baseline.ipynb
+│   ├── 04_advanced_modelling.ipynb
+│   ├── 05_leakage_audit.ipynb
+│   ├── 06_validation_strategy_upgrade.ipynb
+│   ├── 07_hyperparameter_tuning.ipynb
+│   ├── 08_threshold_optimization.ipynb
+│   ├── 09_model_interpretation.ipynb
+│   ├── 10_domain_generalization.ipynb
+│   ├── 11_temporal_feature_engineering.ipynb
+│   ├── 12_economic_integration.ipynb
+│   ├── 13_oof_model_training.ipynb
+│   ├── 14_model_ensembling.ipynb
+│   ├── 15_advanced_model_training.ipynb
+│   ├── 16_true_stacking_v2.ipynb
+│   └── 17_final_model_training.ipynb
+│
+├── outputs/                          # Model outputs & predictions
+│   ├── final/
+│   ├── oof/
+│   ├── submissions/
+│   ├── test/
+│   └── submission.csv
+│
+├── reports/                          # Reports & analysis artifacts
+│
+├── src/                              # Core ML pipeline (modularized)
+│   ├── data/
+│   │   ├── data_loader.py            # Data loading & validation
+│   │   └── load_data.py
+│   │
+│   ├── features/
+│   │   ├── build_features.py         # Feature construction
+│   │   └── feature_engineering.py
+│   │
+│   ├── modeling/
+│   │   ├── modeling.py               # Training logic
+│   │   ├── train.py                  # Model training entry
+│   │   └── predict.py                # Batch prediction logic
+│   │
+│   ├── preprocessing/
+│   │   ├── preprocessing.py          # Data cleaning pipeline
+│   │   ├── encode.py                 # Encoding logic
+│   │   └── pipeline.py               # End-to-end preprocessing pipeline
+│
+├── streamlit_app/                    # Streamlit frontend application
+│   ├── app.py                        # Main app entry point
+│   │
+│   ├── pages/                        # Multi-page UI
+│   │   ├── 1_Home.py
+│   │   ├── 2_Single_Predict.py
+│   │   ├── 3_Batch_Predict.py
+│   │   ├── 4_Model_Insights.py
+│   │   └── 5_About.py
+│   │
+│   ├── utils/                        # App-specific utilities
+│   │   ├── inference.py
+│   │   ├── preprocessing.py
+│   │   └── visualization.py
+│   │
+│   └── assets/                       # UI assets (images, dashboards)
+│       ├── dashboard.png
+│       ├── batch_dashboard.png
+│       ├── shap_dashboard.png
+│       └── single_prediction.png
+│
+├── visuals/                          # Project visuals (EDA & results)
+│
+├── Dockerfile                        # Containerization setup
+├── requirements.txt                  # Python dependencies
+├── README.md                         # Project documentation
+├── .gitignore
+├── train.py                          # Training entry script
+└── predict.py                        # Inference entry script
+```
 ---
 
 ## 🛠️ Tech Stack
@@ -230,7 +325,8 @@ streamlit run streamlit_app/app.py
 ---
 ## 👤 Author
 
-Henry Otsyula
+**Henry Otsyula**
+
 Data Scientist | Machine Learning Engineer
 
 🔗 LinkedIn:
@@ -238,6 +334,9 @@ https://www.linkedin.com/in/henry-otsyula-datascientist
 
 🌐 Portfolio:
 https://www.datascienceportfol.io/otsyulahenry
+
+Email:
+henryotsyula01@gmail.com
 
 ---
 
