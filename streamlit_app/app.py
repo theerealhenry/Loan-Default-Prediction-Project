@@ -1,5 +1,5 @@
 # =========================================================
-# 🧠 LOAN DEFAULT RISK SYSTEM (STREAMLIT APP)
+# 🧠 LOAN DEFAULT RISK SYSTEM (STREAMLIT APP - ELITE)
 # =========================================================
 
 import sys
@@ -12,11 +12,8 @@ sys.path.append(os.path.dirname(PROJECT_ROOT))
 import streamlit as st
 import pandas as pd
 import numpy as np
-import joblib
-import json
-import os
 
-from src.modeling.predict import predict, load_artifacts
+from utils.inference import run_single_inference, load_system
 
 # =========================================================
 # 🔥 PAGE CONFIG
@@ -29,30 +26,26 @@ st.set_page_config(
 )
 
 # =========================================================
-# 🎨 CUSTOM STYLING (ELITE UI)
+# 🎨 ELITE UI STYLING
 # =========================================================
 
 st.markdown("""
 <style>
-/* Background */
 [data-testid="stAppViewContainer"] {
     background-color: #0E1117;
 }
 
-/* Headers */
 h1, h2, h3 {
     color: #00C2FF;
 }
 
-/* Metric Cards */
 .metric-card {
     background-color: #161B22;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 12px;
     text-align: center;
 }
 
-/* Buttons */
 .stButton>button {
     background-color: #00C2FF;
     color: black;
@@ -60,7 +53,6 @@ h1, h2, h3 {
     border-radius: 8px;
 }
 
-/* Sidebar */
 [data-testid="stSidebar"] {
     background-color: #161B22;
 }
@@ -68,184 +60,220 @@ h1, h2, h3 {
 """, unsafe_allow_html=True)
 
 # =========================================================
-# 📦 LOAD MODEL (CACHED)
+# 📦 LOAD SYSTEM
 # =========================================================
 
-@st.cache_resource
-def load_system():
-    model, features, threshold = load_artifacts("models")
-    return model, features, threshold
-
-model, FEATURES, THRESHOLD = load_system()
+_, _, THRESHOLD = load_system()
 
 # =========================================================
-# 🏠 SIDEBAR NAVIGATION
+# 🏠 SIDEBAR
 # =========================================================
 
 st.sidebar.title("💳 Loan Risk System")
+
 page = st.sidebar.radio(
     "Navigation",
     ["🏠 Overview", "🔮 Single Prediction"]
 )
 
 # =========================================================
-# 🏠 OVERVIEW PAGE
+# 🏠 OVERVIEW
 # =========================================================
 
 if page == "🏠 Overview":
 
-    st.title("💳 Loan Default Risk Intelligence System")
+    st.title("💳 Loan Risk Intelligence System")
 
     st.markdown("""
-    ### 🎯 Purpose
-    This system predicts the likelihood of a borrower defaulting on a loan using a production-grade machine learning pipeline.
+    ### 🎯 Enterprise Credit Risk Intelligence Platform
 
-    ### ⚙️ Model Highlights
-    - Model: LightGBM
-    - Validation: Time-Based Cross Validation
-    - Metric: F1 Score (Optimized)
-    - Threshold Optimization: Dynamic
+    This system delivers **production-grade machine learning predictions**
+    for loan default risk, designed to simulate **real-world fintech deployment**.
 
-    ### 🚀 Capabilities
-    - Real-time risk prediction
-    - Batch processing
-    - Risk classification
+    ---
     """)
 
     col1, col2, col3 = st.columns(3)
 
-    with col1:
-        st.metric("Model Type", "LightGBM")
+    col1.metric("Model", "LightGBM")
+    col2.metric("Threshold", f"{THRESHOLD:.2f}")
+    col3.metric("Status", "Production Ready")
 
-    with col2:
-        st.metric("Threshold", f"{THRESHOLD:.2f}")
+    st.markdown("---")
 
-    with col3:
-        st.metric("Status", "Production Ready")
+    st.markdown("""
+    ### 🚀 Capabilities
+    - 🔮 Real-time risk prediction  
+    - 📊 Portfolio analytics (Batch)  
+    - 🧠 Explainability (SHAP)  
+    - ⚙️ Automated ML pipeline  
+
+    ### 🏗️ Architecture
+    - Feature engineering pipeline  
+    - Config-driven system  
+    - Inference abstraction layer  
+    - Docker-ready deployment  
+
+    ---
+    """)
 
 # =========================================================
-# 🔮 SINGLE PREDICTION PAGE
+# 🔮 SINGLE PREDICTION
 # =========================================================
 
 elif page == "🔮 Single Prediction":
 
     st.title("🔮 Loan Risk Prediction Engine")
+    st.markdown("### Real-Time Credit Risk Assessment")
 
-    st.markdown("### Input Loan Details")
+    st.markdown("---")
 
     col1, col2 = st.columns(2)
 
-    # =====================================================
+    # =========================
     # INPUTS
-    # =====================================================
+    # =========================
 
     with col1:
-        repayment_ratio = st.number_input("Repayment Ratio", value=1.2)
-        amount_funded = st.number_input("Amount Funded by Lender", value=5000.0)
-        loan_pressure = st.number_input("Loan Pressure", value=300.0)
-        total_repay = st.number_input("Total Amount to Repay", value=6000.0)
-        total_amount = st.number_input("Total Loan Amount", value=5000.0)
-        lender_portion = st.number_input("Lender Portion Funded", value=0.8)
+        total_amount = st.number_input(
+            "Total Loan Amount",
+            value=5000.0,
+            help="Principal loan amount"
+        )
+
+        total_repay = st.number_input(
+            "Total Amount to Repay",
+            value=6000.0,
+            help="Total repayment including interest"
+        )
+
+        amount_funded = st.number_input(
+            "Amount Funded by Lender",
+            value=5000.0,
+            help="Capital contributed by lender"
+        )
+
+        lender_portion = st.slider(
+            "Lender Portion Funded",
+            0.0, 1.0, 0.8,
+            help="Proportion of loan funded by lender"
+        )
 
     with col2:
-        month = st.selectbox("Month", list(range(1, 13)))
-        year = st.number_input("Year", value=2023)
-        duration = st.number_input("Loan Duration", value=12)
+        duration = st.number_input(
+            "Loan Duration (months)",
+            value=12
+        )
 
-        loan_type = st.selectbox("Loan Type", ["Type_A", "Type_B", "Type_C"])
-        new_repeat = st.selectbox("New vs Repeat", ["New Loan", "Repeat Loan"])
+        month = st.selectbox(
+            "Disbursement Month",
+            list(range(1, 13))
+        )
 
-        unemployment_rate = st.number_input("Unemployment Rate", value=5.0)
+        year = st.number_input(
+            "Year",
+            value=2023
+        )
 
-    # Derived features
-    is_new_customer = 1 if new_repeat == "New Loan" else 0
-    new_large_loan = 1 if (new_repeat == "New Loan" and total_amount > 5000) else 0
+        loan_type = st.selectbox(
+            "Loan Type",
+            ["Type_A", "Type_B", "Type_C"],
+            help="""
+            Type_A: Short-term, low-risk loans  
+            Type_B: Medium-term loans  
+            Type_C: High-risk / long-term loans  
+            """
+        )
 
-    log_amount = np.log1p(total_amount)
+        new_repeat = st.selectbox(
+            "Customer Type",
+            ["New Loan", "Repeat Loan"]
+        )
+
+    # Optional macro input
+    unemployment_rate = st.slider(
+        "Unemployment Rate (%)",
+        0.0, 15.0, 5.0
+    )
+
+    st.markdown("---")
 
     # =====================================================
-    # BUILD INPUT DATAFRAME
+    # BUILD INPUT (MINIMAL — PIPELINE HANDLES REST)
     # =====================================================
 
     input_dict = {
-        "repayment_ratio": repayment_ratio,
-        "Amount_Funded_By_Lender": amount_funded,
-        "loan_pressure": loan_pressure,
-        "Total_Amount_to_Repay": total_repay,
         "Total_Amount": total_amount,
+        "Total_Amount_to_Repay": total_repay,
+        "Amount_Funded_By_Lender": amount_funded,
         "Lender_portion_Funded": lender_portion,
-        "month": month,
         "duration": duration,
-        "loan_type": loan_type,
-        "log_amount": log_amount,
+        "month": month,
         "year": year,
+        "loan_type": loan_type,
         "New_versus_Repeat": new_repeat,
-        "is_new_customer": is_new_customer,
-        "new_large_loan": new_large_loan,
         "unemployment_rate": unemployment_rate,
     }
-
-    input_df = pd.DataFrame([input_dict])
 
     # =====================================================
     # PREDICT
     # =====================================================
 
-    if st.button("🚀 Predict Risk"):
+    if st.button("🚀 Analyze Risk"):
 
-        with st.spinner("Analyzing loan risk..."):
+        with st.spinner("Running model inference..."):
 
-            probs = predict(input_df, return_proba=True)
-            prob = probs[0]
-            pred = int(prob > THRESHOLD)
+            result = run_single_inference(input_dict)
+
+            prob = result["probability"]
+            pred = result["prediction"]
+            risk = result["risk_level"]
+            threshold = result["threshold"]
 
         st.markdown("---")
-        st.markdown("### 📊 Prediction Results")
+        st.markdown("## 📊 Risk Assessment")
 
         col1, col2, col3 = st.columns(3)
 
-        with col1:
-            st.metric("Default Probability", f"{prob:.2%}")
+        col1.metric("Default Probability", f"{prob:.2%}")
+        col2.metric("Threshold", f"{threshold:.2f}")
+        col3.metric("Classification", "Default" if pred else "Safe")
 
-        with col2:
-            st.metric("Threshold", f"{THRESHOLD:.2f}")
+        st.progress(float(prob))
 
-        with col3:
-            st.metric("Prediction", "Default" if pred == 1 else "Safe")
+        # =========================
+        # RISK STATUS
+        # =========================
 
-        # =================================================
-        # RISK LEVEL VISUALIZATION
-        # =================================================
-
-        if prob > 0.7:
-            st.error("🔴 HIGH RISK: Immediate attention required")
-        elif prob > 0.4:
-            st.warning("🟡 MEDIUM RISK: Monitor closely")
+        if risk == "High":
+            st.error("🔴 HIGH RISK — Reject or mitigate")
+        elif risk == "Medium":
+            st.warning("🟡 MEDIUM RISK — Review carefully")
         else:
-            st.success("🟢 LOW RISK: Acceptable")
+            st.success("🟢 LOW RISK — Acceptable")
 
-        # =================================================
-        # INTERPRETATION PANEL
-        # =================================================
+        # =========================
+        # INTERPRETATION
+        # =========================
 
-        st.markdown("### 🧠 Risk Interpretation")
+        st.markdown("## 🧠 Key Risk Drivers")
 
         insights = []
 
-        if repayment_ratio > 1.5:
-            insights.append("High repayment burden detected")
+        if total_repay / (total_amount + 1) > 1.5:
+            insights.append("High repayment burden")
 
-        if loan_pressure > 400:
-            insights.append("Loan pressure is significantly high")
+        if total_amount / (duration + 1) > 400:
+            insights.append("High loan pressure")
 
-        if is_new_customer:
-            insights.append("New customers historically carry higher risk")
+        if new_repeat == "New Loan":
+            insights.append("New borrower risk")
 
         if unemployment_rate > 7:
-            insights.append("Macro-economic risk is elevated")
+            insights.append("Macroeconomic risk elevated")
 
-        if len(insights) == 0:
-            insights.append("No major risk factors detected")
+        if not insights:
+            insights.append("No major risk signals")
 
-        for insight in insights:
-            st.write(f"• {insight}")
+        for i in insights:
+            st.write(f"• {i}")
