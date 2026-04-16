@@ -325,18 +325,24 @@ streamlit run streamlit_app/app.py
 ---
 ## 👤 Author
 
-**Henry Otsyula**
+### Henry Otsyula  
+**Data Scientist | Machine Learning Engineer**
 
-Data Scientist | Machine Learning Engineer
+Building production-ready machine learning systems with a focus on **scalability, interpretability, and real-world impact**.
 
-🔗 LinkedIn:
-https://www.linkedin.com/in/henry-otsyula-datascientist
+![GitHub](https://img.shields.io/badge/GitHub-theerealhenry-black?logo=github) 
 
-🌐 Portfolio:
-https://www.datascienceportfol.io/otsyulahenry
+![LinkedIn](https://img.shields.io/badge/LinkedIn-Henry%20Otsyula-blue?logo=linkedin)
 
-Email:
-henryotsyula01@gmail.com
+📧 Email: henryotsyula01@gmail.com  
+🔗 LinkedIn: https://www.linkedin.com/in/henry-otsyula-datascientist  
+🌐 Portfolio: https://www.datascienceportfol.io/otsyulahenry  
+
+📍 Kenya (Open to remote opportunities)
+
+---
+
+💬 *Open to collaborations, internships, and full-time, remote opportunities in Data Science and Machine Learning.*
 
 ---
 
