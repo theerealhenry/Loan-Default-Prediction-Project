@@ -51,4 +51,5 @@ models/*.pkl
 models/*.joblib
 
 # personal branding image
-streamlit_app/assets/
+streamlit_app/assets/me.jpeg
+
