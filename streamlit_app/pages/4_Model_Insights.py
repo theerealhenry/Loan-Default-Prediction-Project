@@ -1,13 +1,14 @@
 # =========================================================
-# 🧠 MODEL INSIGHTS DASHBOARD (ELITE AI EXPLAINABILITY PLATFORM)
+# 🧠 MODEL INSIGHTS DASHBOARD (PRODUCTION-GRADE)
 # =========================================================
 
 import streamlit as st
 import pandas as pd
 import numpy as np
 import shap
-
+import matplotlib.pyplot as plt
 import sys, os
+
 sys.path.append(os.path.abspath(".."))
 
 from utils.preprocessing import preprocess_dataframe
@@ -56,31 +57,7 @@ def load_all():
 model, FEATURES, THRESHOLD, config = load_all()
 
 # =========================================================
-# 🏠 HEADER
-# =========================================================
-
-st.title("🧠 AI Explainability Dashboard")
-st.markdown("### Deep Model Intelligence & Risk Interpretation")
-
-st.markdown("---")
-
-# =========================================================
-# 📊 FEATURE IMPORTANCE (MODEL LEVEL)
-# =========================================================
-
-st.markdown("## 📊 Model Feature Importance")
-
-fi_df = pd.DataFrame({
-    "Feature": FEATURES,
-    "Importance": model.feature_importances_
-}).sort_values(by="Importance", ascending=False)
-
-st.bar_chart(fi_df.set_index("Feature"))
-
-st.markdown("---")
-
-# =========================================================
-# 📂 LOAD SAMPLE DATA
+# 📂 LOAD SAMPLE DATA (ROBUST FIX)
 # =========================================================
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -88,8 +65,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 @st.cache_data
 def load_sample():
     try:
-        path = os.path.join(BASE_DIR, "data/processed/train_merged.parquet")
-        return pd.read_parquet(path).sample(300, random_state=42)
+        path = os.path.join(BASE_DIR, "data", "processed", "train_merged.parquet")
+        df = pd.read_parquet(path)
+        return df.sample(min(300, len(df)), random_state=42)
     except Exception as e:
         st.error(f"Error loading sample data: {e}")
         return None
@@ -97,127 +75,191 @@ def load_sample():
 sample_df = load_sample()
 
 # =========================================================
-# 🧠 SHAP EXPLAINABILITY ENGINE
+# 🏠 HEADER
+# =========================================================
+
+st.title("🧠 AI Explainability Dashboard")
+st.markdown("### Deep Model Intelligence & Risk Interpretation")
+st.markdown("---")
+
+# =========================================================
+# 📊 MODEL FEATURE IMPORTANCE
+# =========================================================
+
+st.markdown("## 📊 Model Feature Importance")
+
+try:
+    fi_df = pd.DataFrame({
+        "Feature": FEATURES,
+        "Importance": model.feature_importances_
+    }).sort_values(by="Importance", ascending=False)
+
+    st.bar_chart(fi_df.set_index("Feature"))
+
+except:
+    st.warning("Model does not expose feature_importances_")
+
+st.markdown("---")
+
+# =========================================================
+# 🧠 SHAP ENGINE
 # =========================================================
 
 st.markdown("## 🧠 SHAP Explainability Engine")
 
-st.markdown("""
-<div class="card">
-SHAP (SHapley Additive exPlanations) explains how each feature contributes to model predictions.
-This dashboard provides both global and individual explanations.
-</div>
-""", unsafe_allow_html=True)
+if sample_df is None:
+    st.warning("⚠️ Sample dataset not found.")
+    st.stop()
 
-if sample_df is not None:
+# =========================================================
+# 🔧 PREPROCESS
+# =========================================================
 
-    # =====================================================
-    # 🔥 PIPELINE ALIGNMENT (CRITICAL FIX)
-    # =====================================================
+df_clean = preprocess_dataframe(sample_df)
+X_sample = prepare_input(df_clean, config)
 
-    df_clean = preprocess_dataframe(sample_df)
+# Ensure alignment
+X_sample = X_sample.reindex(columns=FEATURES, fill_value=0)
 
-    X_sample = prepare_input(df_clean, config)
+# =========================================================
+# 🔥 SHAP COMPUTATION (SAFE)
+# =========================================================
 
-    # Ensure correct feature order
-    X_sample = X_sample[FEATURES]
+@st.cache_resource
+def compute_shap(model, X):
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(X)
+    return explainer, shap_values
 
-    # =====================================================
-    # 🔥 SHAP COMPUTATION
-    # =====================================================
+explainer, shap_values = compute_shap(model, X_sample)
 
-    with st.spinner("Computing SHAP values..."):
-        explainer = shap.TreeExplainer(model)
-        shap_values = explainer.shap_values(X_sample)
+# =========================================================
+# 🔧 CLEAN SHAP FUNCTION
+# =========================================================
 
-    # =====================================================
-    # 🌍 GLOBAL EXPLAINABILITY
-    # =====================================================
-
-    st.markdown("## 🌍 Global Feature Impact")
-
-    # Handle different SHAP output formats
+def clean_shap_values(shap_values):
     if isinstance(shap_values, list):
-        shap_values = shap_values[1]  # for binary classification
+        shap_values = shap_values[1]
+    return np.array(shap_values)
 
-    # Now shap_values should be (n_samples, n_features)
+shap_values = clean_shap_values(shap_values)
 
-    shap_importance = np.abs(shap_values).mean(axis=0)
+# =========================================================
+# 🌍 GLOBAL EXPLAINABILITY
+# =========================================================
 
-    
+st.markdown("## 🌍 Global Feature Impact")
 
-    shap_df = pd.DataFrame({
-        "Feature": X_sample.columns,
-        "SHAP Importance": shap_importance
-    }).sort_values(by="SHAP Importance", ascending=False)
+shap_importance = np.abs(shap_values).mean(axis=0)
 
-    st.bar_chart(shap_df.set_index("Feature"))
+shap_df = pd.DataFrame({
+    "Feature": FEATURES,
+    "Importance": shap_importance
+}).sort_values(by="Importance", ascending=False)
 
-    st.markdown("### 🧠 Top Risk Drivers")
+st.bar_chart(shap_df.set_index("Feature"))
 
-    top_features = shap_df.head(10)
+# =========================================================
+# 🔥 SHAP SUMMARY PLOT (BEESWARM)
+# =========================================================
 
-    for _, row in top_features.iterrows():
-        st.write(f"• {row['Feature']} → Impact Score: {row['SHAP Importance']:.4f}")
+st.markdown("### 🔥 SHAP Summary Plot")
 
-    st.markdown("---")
+fig, ax = plt.subplots()
+shap.summary_plot(shap_values, X_sample, show=False)
+st.pyplot(fig)
 
-    # =====================================================
-    # 🔍 LOCAL EXPLAINABILITY (INTERACTIVE)
-    # =====================================================
+# =========================================================
+# 🔥 SHAP BAR PLOT
+# =========================================================
 
-    st.markdown("## 🔍 Individual Prediction Analysis")
+st.markdown("### 📊 SHAP Global Importance (Bar)")
 
-    idx = st.slider("Select Loan Index", 0, len(X_sample) - 1, 0)
+fig2, ax2 = plt.subplots()
+shap.summary_plot(shap_values, X_sample, plot_type="bar", show=False)
+st.pyplot(fig2)
 
-    selected_row = X_sample.iloc[[idx]]
+st.markdown("---")
 
-    shap_val = explainer.shap_values(selected_row)[0]
+# =========================================================
+# 🔍 LOCAL EXPLAINABILITY
+# =========================================================
 
-    contrib_df = pd.DataFrame({
-        "Feature": FEATURES,
-        "Contribution": shap_val
-    }).sort_values(by="Contribution", key=abs, ascending=False)
+st.markdown("## 🔍 Individual Prediction Analysis")
 
-    # =====================================================
-    # 📊 CONTRIBUTION TABLE
-    # =====================================================
+idx = st.slider("Select Loan Index", 0, len(X_sample) - 1, 0)
 
-    st.markdown("### 📊 Feature Contributions")
+single_row = X_sample.iloc[[idx]]
+single_shap = clean_shap_values(explainer.shap_values(single_row))[0].flatten()
 
-    st.dataframe(contrib_df.head(15))
+# =========================================================
+# 📊 CONTRIBUTION TABLE
+# =========================================================
 
-    # =====================================================
-    # 📈 CONTRIBUTION BAR CHART
-    # =====================================================
+contrib_df = pd.DataFrame({
+    "Feature": FEATURES,
+    "Contribution": single_shap
+}).sort_values(by="Contribution", key=np.abs, ascending=False)
 
-    st.markdown("### 📈 Contribution Visualization")
+st.markdown("### 📊 Feature Contributions")
+st.dataframe(contrib_df.head(15))
 
-    st.bar_chart(contrib_df.set_index("Feature").head(10))
+# =========================================================
+# 📈 CONTRIBUTION BAR
+# =========================================================
 
-    # =====================================================
-    # 🧠 INTERPRETATION ENGINE
-    # =====================================================
+st.markdown("### 📈 Contribution Chart")
+st.bar_chart(contrib_df.set_index("Feature").head(10))
 
-    st.markdown("## 🧠 AI Interpretation")
+# =========================================================
+# 🔥 WATERFALL PLOT
+# =========================================================
 
-    top_positive = contrib_df[contrib_df["Contribution"] > 0].head(3)
-    top_negative = contrib_df[contrib_df["Contribution"] < 0].head(3)
+st.markdown("### 🌊 SHAP Waterfall Plot")
 
-    col1, col2 = st.columns(2)
+fig3 = plt.figure()
+shap.plots._waterfall.waterfall_legacy(
+    explainer.expected_value,
+    single_shap,
+    feature_names=FEATURES
+)
+st.pyplot(fig3)
 
-    with col1:
-        st.markdown("### 🔴 Risk Increasing Factors")
-        for _, row in top_positive.iterrows():
-            st.write(f"• {row['Feature']} (+{row['Contribution']:.4f})")
+# =========================================================
+# 🔥 FORCE PLOT (INTERACTIVE HTML)
+# =========================================================
 
-    with col2:
-        st.markdown("### 🟢 Risk Reducing Factors")
-        for _, row in top_negative.iterrows():
-            st.write(f"• {row['Feature']} ({row['Contribution']:.4f})")
+st.markdown("### ⚡ SHAP Force Plot")
 
-else:
-    st.warning("⚠️ Sample dataset not found. Upload processed data to enable SHAP.")
+force_plot = shap.force_plot(
+    explainer.expected_value,
+    single_shap,
+    single_row,
+    matplotlib=False
+)
+
+st.components.v1.html(shap.getjs() + force_plot.html(), height=300)
+
+# =========================================================
+# 🧠 INTERPRETATION ENGINE
+# =========================================================
+
+st.markdown("## 🧠 AI Interpretation")
+
+top_pos = contrib_df[contrib_df["Contribution"] > 0].head(3)
+top_neg = contrib_df[contrib_df["Contribution"] < 0].head(3)
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("### 🔴 Risk Increasing")
+    for _, r in top_pos.iterrows():
+        st.write(f"• {r['Feature']} (+{r['Contribution']:.4f})")
+
+with col2:
+    st.markdown("### 🟢 Risk Reducing")
+    for _, r in top_neg.iterrows():
+        st.write(f"• {r['Feature']} ({r['Contribution']:.4f})")
 
 st.markdown("---")
 
@@ -230,12 +272,11 @@ st.markdown("## 📈 Model Summary")
 st.markdown(f"""
 <div class="card">
 
-<b>Model Type:</b> LightGBM<br><br>
-<b>Total Features:</b> {len(FEATURES)}<br><br>
-<b>Decision Threshold:</b> {THRESHOLD:.2f}<br><br>
+<b>Model:</b> LightGBM<br>
+<b>Features:</b> {len(FEATURES)}<br>
+<b>Threshold:</b> {THRESHOLD:.2f}
 
-This model uses advanced feature engineering, optimized thresholding,
-and explainability techniques to support real-world credit decisions.
+Production-grade ML system with explainability layer.
 
 </div>
 """, unsafe_allow_html=True)
