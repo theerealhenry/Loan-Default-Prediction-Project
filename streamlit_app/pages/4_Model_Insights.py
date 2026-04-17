@@ -7,6 +7,9 @@ import pandas as pd
 import numpy as np
 import shap
 
+import sys, os
+sys.path.append(os.path.abspath(".."))
+
 from utils.preprocessing import preprocess_dataframe
 from utils.inference import load_system, load_config
 from src.modeling.predict import prepare_input
@@ -83,8 +86,11 @@ st.markdown("---")
 @st.cache_data
 def load_sample():
     try:
-        return pd.read_parquet("data/processed/train_merged.parquet").sample(300, random_state=42)
-    except:
+        base_dir = os.path.dirname(os.path.dirname(__file__))  # go up from streamlit_app
+        path = os.path.join(base_dir, "data", "processed", "train_merged.parquet")
+        return pd.read_parquet(path).sample(300, random_state=42)
+    except Exception as e:
+        st.error(f"Error loading sample data: {e}")
         return None
 
 sample_df = load_sample()
