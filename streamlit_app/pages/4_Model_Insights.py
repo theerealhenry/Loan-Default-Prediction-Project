@@ -136,10 +136,18 @@ if sample_df is not None:
 
     st.markdown("## 🌍 Global Feature Impact")
 
+    # Handle different SHAP output formats
+    if isinstance(shap_values, list):
+        shap_values = shap_values[1]  # for binary classification
+
+    # Now shap_values should be (n_samples, n_features)
+
     shap_importance = np.abs(shap_values).mean(axis=0)
 
+    
+
     shap_df = pd.DataFrame({
-        "Feature": FEATURES,
+        "Feature": X_sample.columns,
         "SHAP Importance": shap_importance
     }).sort_values(by="SHAP Importance", ascending=False)
 
