@@ -3,9 +3,6 @@ data/raw/
 data/interim/
 data/processed/
 
-# Models
-models/
-
 # Outputs
 outputs/
 
@@ -46,10 +43,5 @@ catboost_info/
 # OS
 .DS_Store
 
-# Large files
-models/*.pkl
-models/*.joblib
-
-# personal branding image
-streamlit_app/assets/me.jpeg
-
+# Allow dataset for SHAP computing in deployment
+!data\processed\train_merged.parquet
