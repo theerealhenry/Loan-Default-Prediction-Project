@@ -122,16 +122,19 @@ X_sample = prepare_input(df_clean, config)
 X_sample = X_sample.reindex(columns=FEATURES, fill_value=0)
 
 # =========================================================
-# 🔥 SHAP COMPUTATION (SAFE)
+# 🔥 SHAP COMPUTATION
 # =========================================================
 
+# Cache ONLY the explainer (safe)
 @st.cache_resource
-def compute_shap(model, X):
-    explainer = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(X)
-    return explainer, shap_values
+def get_explainer(model):
+    return shap.TreeExplainer(model)
 
-explainer, shap_values = compute_shap(model, X_sample)
+explainer = get_explainer(model)
+
+# Compute SHAP values OUTSIDE cache (important)
+with st.spinner("Computing SHAP values..."):
+    shap_values = explainer.shap_values(X_sample)
 
 # =========================================================
 # 🔧 CLEAN SHAP FUNCTION
