@@ -83,11 +83,12 @@ st.markdown("---")
 # 📂 LOAD SAMPLE DATA
 # =========================================================
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 @st.cache_data
 def load_sample():
     try:
-        base_dir = os.path.dirname(os.path.dirname(__file__))  # go up from streamlit_app
-        path = os.path.join(base_dir, "data", "processed", "train_merged.parquet")
+        path = os.path.join(BASE_DIR, "data/processed/train_merged.parquet")
         return pd.read_parquet(path).sample(300, random_state=42)
     except Exception as e:
         st.error(f"Error loading sample data: {e}")
