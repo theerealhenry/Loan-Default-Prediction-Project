@@ -63,7 +63,15 @@ h1, h2, h3 {
 # 📦 LOAD SYSTEM
 # =========================================================
 
-_, _, THRESHOLD = load_system()
+@st.cache_resource
+def initialize_system():
+    return load_system()
+
+try:
+    _, _, THRESHOLD = initialize_system()
+except Exception as e:
+    st.error(f"System failed to load: {e}")
+    st.stop()
 
 # =========================================================
 # 🏠 SIDEBAR
