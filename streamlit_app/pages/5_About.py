@@ -282,7 +282,7 @@ col1, col2 = st.columns([1, 3])
 
 with col1:
     st.image(
-        "streamlit_app/assets/me.jpeg",  # use relative path
+        "https://media.licdn.com/dms/image/v2/D4D03AQFmHwaRuT-ViA/profile-displayphoto-scale_400_400/B4DZ0mcuZBGoAg-/0/1774466579323?e=1778112000&v=beta&t=4UxqkdpP5Njw4gOMHGZhv0FpzMvt-5vT2cvSkkptbEI",  
         width=420
     )
 
