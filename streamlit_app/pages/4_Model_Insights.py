@@ -1,5 +1,5 @@
 # =========================================================
-# 🧠 MODEL INSIGHTS DASHBOARD (PRODUCTION-GRADE)
+# 🧠 MODEL INSIGHTS DASHBOARD (ELITE & STABLE)
 # =========================================================
 
 import streamlit as st
@@ -45,7 +45,7 @@ h1, h2, h3 {
 """, unsafe_allow_html=True)
 
 # =========================================================
-# 📦 LOAD SYSTEM
+# 📦 LOAD SYSTEM (SAFE CACHE)
 # =========================================================
 
 @st.cache_resource
@@ -57,7 +57,7 @@ def load_all():
 model, FEATURES, THRESHOLD, config = load_all()
 
 # =========================================================
-# 📂 LOAD SAMPLE DATA (ROBUST FIX)
+# 📂 LOAD SAMPLE DATA
 # =========================================================
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -67,7 +67,7 @@ def load_sample():
     try:
         path = os.path.join(BASE_DIR, "data", "processed", "train_merged.parquet")
         df = pd.read_parquet(path)
-        return df.sample(min(300, len(df)), random_state=42)
+        return df.sample(min(200, len(df)), random_state=42)
     except Exception as e:
         st.error(f"Error loading sample data: {e}")
         return None
@@ -96,7 +96,7 @@ try:
 
     st.bar_chart(fi_df.set_index("Feature"))
 
-except:
+except Exception:
     st.warning("Model does not expose feature_importances_")
 
 st.markdown("---")
@@ -112,40 +112,39 @@ if sample_df is None:
     st.stop()
 
 # =========================================================
-# 🔧 PREPROCESS
+# 🔧 PREPROCESS PIPELINE
 # =========================================================
 
 df_clean = preprocess_dataframe(sample_df)
 X_sample = prepare_input(df_clean, config)
 
-# Ensure alignment
+# Align features safely
 X_sample = X_sample.reindex(columns=FEATURES, fill_value=0)
 
+# Reduce size for performance
+X_sample = X_sample.sample(min(150, len(X_sample)), random_state=42)
+
 # =========================================================
-# 🔥 SHAP COMPUTATION
+# 🔥 SHAP COMPUTATION (NO CACHING HERE)
 # =========================================================
 
-# Cache ONLY the explainer (safe)
-@st.cache_resource
-def get_explainer(model):
-    return shap.TreeExplainer(model)
-
-explainer = get_explainer(model)
-
-# Compute SHAP values OUTSIDE cache (important)
 with st.spinner("Computing SHAP values..."):
+    explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(X_sample)
 
 # =========================================================
-# 🔧 CLEAN SHAP FUNCTION
+# 🔧 CLEAN SHAP OUTPUT
 # =========================================================
 
-def clean_shap_values(shap_values):
-    if isinstance(shap_values, list):
-        shap_values = shap_values[1]
-    return np.array(shap_values)
+if isinstance(shap_values, list):
+    shap_values = shap_values[1]
 
-shap_values = clean_shap_values(shap_values)
+shap_values = np.array(shap_values)
+
+# Fix expected value
+expected_value = explainer.expected_value
+if isinstance(expected_value, list):
+    expected_value = expected_value[1]
 
 # =========================================================
 # 🌍 GLOBAL EXPLAINABILITY
@@ -153,34 +152,46 @@ shap_values = clean_shap_values(shap_values)
 
 st.markdown("## 🌍 Global Feature Impact")
 
-shap_importance = np.abs(shap_values).mean(axis=0)
+try:
+    shap_importance = np.abs(shap_values).mean(axis=0)
 
-shap_df = pd.DataFrame({
-    "Feature": FEATURES,
-    "Importance": shap_importance
-}).sort_values(by="Importance", ascending=False)
+    shap_df = pd.DataFrame({
+        "Feature": FEATURES,
+        "Importance": shap_importance
+    }).sort_values(by="Importance", ascending=False)
 
-st.bar_chart(shap_df.set_index("Feature"))
+    st.bar_chart(shap_df.set_index("Feature"))
+
+except Exception as e:
+    st.error(f"SHAP global error: {e}")
 
 # =========================================================
-# 🔥 SHAP SUMMARY PLOT (BEESWARM)
+# 🔥 SHAP SUMMARY (BEESWARM)
 # =========================================================
 
-st.markdown("### 🔥 SHAP Summary Plot")
+st.markdown("### 🔥 SHAP Summary (Beeswarm)")
 
-fig, ax = plt.subplots()
-shap.summary_plot(shap_values, X_sample, show=False)
-st.pyplot(fig)
+try:
+    fig, ax = plt.subplots()
+    shap.summary_plot(shap_values, X_sample, show=False)
+    st.pyplot(fig)
+    plt.clf()
+except Exception as e:
+    st.warning(f"Summary plot error: {e}")
 
 # =========================================================
 # 🔥 SHAP BAR PLOT
 # =========================================================
 
-st.markdown("### 📊 SHAP Global Importance (Bar)")
+st.markdown("### 📊 SHAP Global Importance")
 
-fig2, ax2 = plt.subplots()
-shap.summary_plot(shap_values, X_sample, plot_type="bar", show=False)
-st.pyplot(fig2)
+try:
+    fig2, ax2 = plt.subplots()
+    shap.summary_plot(shap_values, X_sample, plot_type="bar", show=False)
+    st.pyplot(fig2)
+    plt.clf()
+except Exception as e:
+    st.warning(f"Bar plot error: {e}")
 
 st.markdown("---")
 
@@ -193,7 +204,12 @@ st.markdown("## 🔍 Individual Prediction Analysis")
 idx = st.slider("Select Loan Index", 0, len(X_sample) - 1, 0)
 
 single_row = X_sample.iloc[[idx]]
-single_shap = clean_shap_values(explainer.shap_values(single_row))[0].flatten()
+single_shap = explainer.shap_values(single_row)
+
+if isinstance(single_shap, list):
+    single_shap = single_shap[1]
+
+single_shap = np.array(single_shap).flatten()
 
 # =========================================================
 # 📊 CONTRIBUTION TABLE
@@ -205,7 +221,7 @@ contrib_df = pd.DataFrame({
 }).sort_values(by="Contribution", key=np.abs, ascending=False)
 
 st.markdown("### 📊 Feature Contributions")
-st.dataframe(contrib_df.head(15))
+st.dataframe(contrib_df.head(15), use_container_width=True)
 
 # =========================================================
 # 📈 CONTRIBUTION BAR
@@ -215,33 +231,41 @@ st.markdown("### 📈 Contribution Chart")
 st.bar_chart(contrib_df.set_index("Feature").head(10))
 
 # =========================================================
-# 🔥 WATERFALL PLOT
+# 🌊 WATERFALL PLOT (FIXED)
 # =========================================================
 
-st.markdown("### 🌊 SHAP Waterfall Plot")
+st.markdown("### 🌊 SHAP Waterfall")
 
-fig3 = plt.figure()
-shap.plots._waterfall.waterfall_legacy(
-    explainer.expected_value,
-    single_shap,
-    feature_names=FEATURES
-)
-st.pyplot(fig3)
+try:
+    fig3 = plt.figure()
+    shap.plots._waterfall.waterfall_legacy(
+        expected_value,
+        single_shap,
+        feature_names=FEATURES
+    )
+    st.pyplot(fig3)
+    plt.clf()
+except Exception as e:
+    st.warning(f"Waterfall error: {e}")
 
 # =========================================================
-# 🔥 FORCE PLOT (INTERACTIVE HTML)
+# ⚡ FORCE PLOT (INTERACTIVE)
 # =========================================================
 
 st.markdown("### ⚡ SHAP Force Plot")
 
-force_plot = shap.force_plot(
-    explainer.expected_value,
-    single_shap,
-    single_row,
-    matplotlib=False
-)
+try:
+    force_plot = shap.force_plot(
+        expected_value,
+        single_shap,
+        single_row,
+        matplotlib=False
+    )
 
-st.components.v1.html(shap.getjs() + force_plot.html(), height=300)
+    st.components.v1.html(shap.getjs() + force_plot.html(), height=300)
+
+except Exception as e:
+    st.warning(f"Force plot error: {e}")
 
 # =========================================================
 # 🧠 INTERPRETATION ENGINE
@@ -264,12 +288,11 @@ with col2:
     for _, r in top_neg.iterrows():
         st.write(f"• {r['Feature']} ({r['Contribution']:.4f})")
 
-st.markdown("---")
-
 # =========================================================
 # 📈 MODEL SUMMARY
 # =========================================================
 
+st.markdown("---")
 st.markdown("## 📈 Model Summary")
 
 st.markdown(f"""
@@ -277,9 +300,12 @@ st.markdown(f"""
 
 <b>Model:</b> LightGBM<br>
 <b>Features:</b> {len(FEATURES)}<br>
-<b>Threshold:</b> {THRESHOLD:.2f}
+<b>Threshold:</b> {THRESHOLD:.2f}<br><br>
 
-Production-grade ML system with explainability layer.
+Production-grade ML system with full explainability stack:
+• Global + Local SHAP  
+• Interactive force plots  
+• Risk decomposition engine  
 
 </div>
 """, unsafe_allow_html=True)
