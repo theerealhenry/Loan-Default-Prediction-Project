@@ -1,5 +1,5 @@
 # =========================================================
-# 🏠 HOME — LOAN RISK INTELLIGENCE DASHBOARD
+# HOME — LOAN RISK INTELLIGENCE DASHBOARD
 # =========================================================
 
 import streamlit as st
@@ -12,7 +12,7 @@ import os
 from src.modeling.predict import load_artifacts
 
 # =========================================================
-# 🔥 PAGE CONFIG
+# PAGE CONFIG
 # =========================================================
 
 st.set_page_config(
@@ -21,7 +21,7 @@ st.set_page_config(
 )
 
 # =========================================================
-# 🎨 ELITE STYLING
+# ELITE STYLING
 # =========================================================
 
 st.markdown("""
@@ -65,7 +65,7 @@ hr {
 """, unsafe_allow_html=True)
 
 # =========================================================
-# 📦 LOAD SYSTEM (CACHED)
+# LOAD SYSTEM (CACHED)
 # =========================================================
 
 @st.cache_resource
@@ -76,7 +76,7 @@ def load_system():
 model, FEATURES, THRESHOLD = load_system()
 
 # =========================================================
-# 🏠 HEADER
+# HEADER
 # =========================================================
 
 st.title("💳 Loan Default Risk Intelligence System")
@@ -85,7 +85,7 @@ st.markdown("### Enterprise-Grade Decision Support Platform")
 st.markdown("---")
 
 # =========================================================
-# 📊 EXECUTIVE METRICS
+# EXECUTIVE METRICS
 # =========================================================
 
 col1, col2, col3, col4 = st.columns(4)
@@ -105,7 +105,7 @@ with col4:
 st.markdown("---")
 
 # =========================================================
-# 🧠 SYSTEM OVERVIEW
+# SYSTEM OVERVIEW
 # =========================================================
 
 col1, col2 = st.columns([2, 1])
@@ -153,7 +153,7 @@ with col2:
 st.markdown("---")
 
 # =========================================================
-# 🔍 CAPABILITIES
+# CAPABILITIES
 # =========================================================
 
 st.markdown("## 🚀 Core Capabilities")
@@ -187,7 +187,7 @@ with col3:
 st.markdown("---")
 
 # =========================================================
-# 📉 RISK DISTRIBUTION (SIMULATED VISUAL)
+# RISK DISTRIBUTION (SIMULATED VISUAL)
 # =========================================================
 
 st.markdown("## 📉 Risk Distribution (Illustrative)")
@@ -204,7 +204,7 @@ hist_df = pd.DataFrame({
     "Count": counts
 })
 
-# Plot properly
+# Plot 
 st.bar_chart(hist_df.set_index("Probability"))
 
 st.caption("Illustrative distribution of predicted default probabilities.")
@@ -212,7 +212,7 @@ st.caption("Illustrative distribution of predicted default probabilities.")
 st.markdown("---")
 
 # =========================================================
-# 🧭 WORKFLOW
+# WORKFLOW
 # =========================================================
 
 st.markdown("## 🧭 System Workflow")
@@ -241,7 +241,7 @@ Risk classification + interpretation
 st.markdown("---")
 
 # =========================================================
-# 📌 FOOTER
+# FOOTER
 # =========================================================
 
 st.markdown("""

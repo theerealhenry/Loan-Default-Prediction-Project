@@ -1,7 +1,7 @@
 import sys
 import os
 
-# ✅ Get absolute path to project root (VERY IMPORTANT)
+# absolute path to project root 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 sys.path.append(PROJECT_ROOT)

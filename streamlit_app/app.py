@@ -1,5 +1,5 @@
 # =========================================================
-# 🧠 LOAN DEFAULT RISK SYSTEM (STREAMLIT APP - ELITE)
+# LOAN DEFAULT RISK SYSTEM
 # =========================================================
 
 import sys
@@ -16,7 +16,7 @@ import numpy as np
 from utils.inference import run_single_inference, load_system
 
 # =========================================================
-# 🔥 PAGE CONFIG
+# PAGE CONFIG
 # =========================================================
 
 st.set_page_config(
@@ -26,7 +26,7 @@ st.set_page_config(
 )
 
 # =========================================================
-# 🎨 ELITE UI STYLING
+# UI STYLING
 # =========================================================
 
 st.markdown("""
@@ -60,7 +60,7 @@ h1, h2, h3 {
 """, unsafe_allow_html=True)
 
 # =========================================================
-# 📦 LOAD SYSTEM
+# LOAD SYSTEM
 # =========================================================
 
 @st.cache_resource
@@ -74,7 +74,7 @@ except Exception as e:
     st.stop()
 
 # =========================================================
-# 🏠 SIDEBAR
+# SIDEBAR
 # =========================================================
 
 st.sidebar.title("💳 Loan Risk System")
@@ -85,7 +85,7 @@ page = st.sidebar.radio(
 )
 
 # =========================================================
-# 🏠 OVERVIEW
+# OVERVIEW
 # =========================================================
 
 if page == "🏠 Overview":
@@ -126,7 +126,7 @@ if page == "🏠 Overview":
     """)
 
 # =========================================================
-# 🔮 SINGLE PREDICTION
+# SINGLE PREDICTION
 # =========================================================
 
 elif page == "🔮 Single Prediction":
@@ -207,7 +207,7 @@ elif page == "🔮 Single Prediction":
     st.markdown("---")
 
     # =====================================================
-    # BUILD INPUT (MINIMAL — PIPELINE HANDLES REST)
+    # BUILD INPUT
     # =====================================================
 
     input_dict = {

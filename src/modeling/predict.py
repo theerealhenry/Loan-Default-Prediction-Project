@@ -1,5 +1,5 @@
 # =========================================================
-# 🔮 PREDICTION PIPELINE (PRODUCTION READY)
+# PREDICTION PIPELINE (PRODUCTION READY)
 # =========================================================
 
 import pandas as pd
@@ -13,11 +13,11 @@ from src.preprocessing.encode import encode_categoricals
 
 
 # =========================================================
-# 🔹 LOAD ARTIFACTS
+# LOAD ARTIFACTS
 # =========================================================
 
 def load_artifacts(model_dir="models"):
-    print("📦 Loading model artifacts...")
+    print("Loading model artifacts...")
 
     model = joblib.load(os.path.join(model_dir, "final_model.pkl"))
     features = joblib.load(os.path.join(model_dir, "features.pkl"))
@@ -31,7 +31,7 @@ def load_artifacts(model_dir="models"):
 
 
 # =========================================================
-# 🔹 ALIGN FEATURES (CRITICAL)
+# ALIGN FEATURES (CRITICAL)
 # =========================================================
 
 def align_features(df, features):
@@ -53,7 +53,7 @@ def align_features(df, features):
 
 
 # =========================================================
-# 🔹 PREPROCESS + FEATURE PIPELINE
+# PREPROCESS + FEATURE PIPELINE
 # =========================================================
 
 def prepare_input(df, config):
@@ -76,7 +76,7 @@ def prepare_input(df, config):
 
 
 # =========================================================
-# 🔹 MAIN PREDICT FUNCTION
+# MAIN PREDICT FUNCTION
 # =========================================================
 
 def predict(input_df, config, model_dir="models", return_proba=False):
@@ -132,7 +132,7 @@ def predict(input_df, config, model_dir="models", return_proba=False):
 
 
 # =========================================================
-# 🔹 BATCH PREDICTION (FOR COMPETITIONS)
+# BATCH PREDICTION (FOR COMPETITIONS)
 # =========================================================
 
 def predict_to_submission(input_df, config, id_col="ID", model_dir="models"):
@@ -151,7 +151,7 @@ def predict_to_submission(input_df, config, id_col="ID", model_dir="models"):
 
 
 # =========================================================
-# 🔹 DEBUG MODE (VERY IMPORTANT)
+# DEBUG MODE (VERY IMPORTANT)
 # =========================================================
 
 def debug_prediction(input_df, model_dir="models"):

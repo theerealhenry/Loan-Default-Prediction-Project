@@ -1,5 +1,5 @@
 # =========================================================
-# 🧾 ABOUT | LOAN RISK INTELLIGENCE PLATFORM
+# ABOUT | LOAN RISK INTELLIGENCE PLATFORM
 # =========================================================
 
 import streamlit as st
@@ -14,7 +14,7 @@ st.set_page_config(
 )
 
 # =========================================================
-# 🎨 ELITE UI STYLING
+# UI STYLING
 # =========================================================
 
 st.markdown("""
@@ -51,7 +51,7 @@ h1, h2, h3 {
 """, unsafe_allow_html=True)
 
 # =========================================================
-# 🏠 HEADER
+# HEADER
 # =========================================================
 
 st.title("🧠 Loan Risk Intelligence Platform")
@@ -60,7 +60,7 @@ st.markdown("### Production-Grade Machine Learning System for Credit Risk Decisi
 st.markdown("---")
 
 # =========================================================
-# 🚀 EXECUTIVE SUMMARY
+# EXECUTIVE SUMMARY
 # =========================================================
 
 st.markdown("## 🚀 Executive Overview")
@@ -86,7 +86,7 @@ The system is built with a strong focus on:
 """, unsafe_allow_html=True)
 
 # =========================================================
-# 🏗️ SYSTEM ARCHITECTURE
+# SYSTEM ARCHITECTURE
 # =========================================================
 
 st.markdown("## 🏗️ System Architecture")
@@ -123,7 +123,7 @@ This architecture mirrors <span class="highlight">real-world ML systems</span> u
 """, unsafe_allow_html=True)
 
 # =========================================================
-# ⚙️ MODEL ENGINEERING
+# MODEL ENGINEERING
 # =========================================================
 
 st.markdown("## ⚙️ Model Engineering & Strategy")
@@ -152,7 +152,7 @@ Move beyond accuracy → optimize for <b>decision quality</b> in real-world lend
 """, unsafe_allow_html=True)
 
 # =========================================================
-# 📊 FEATURE ENGINEERING
+# FEATURE ENGINEERING
 # =========================================================
 
 st.markdown("## 📊 Feature Engineering Intelligence")
@@ -182,7 +182,7 @@ All transformations are:
 """, unsafe_allow_html=True)
 
 # =========================================================
-# 🧠 EXPLAINABILITY PLATFORM
+# EXPLAINABILITY PLATFORM
 # =========================================================
 
 st.markdown("## 🧠 Explainability & AI Transparency")
@@ -214,7 +214,7 @@ to provide deep model interpretability.
 """, unsafe_allow_html=True)
 
 # =========================================================
-# 📊 ANALYTICS & DECISION SUPPORT
+# ANALYTICS & DECISION SUPPORT
 # =========================================================
 
 st.markdown("## 📊 Portfolio Analytics & Decision Intelligence")
@@ -243,7 +243,7 @@ This enables:
 """, unsafe_allow_html=True)
 
 # =========================================================
-# 🚀 PRODUCTION CAPABILITIES
+# PRODUCTION CAPABILITIES
 # =========================================================
 
 st.markdown("## 🚀 Production-Grade Capabilities")
@@ -273,7 +273,7 @@ Designed to be easily extended into:
 """, unsafe_allow_html=True)
 
 # =========================================================
-# 👤 AUTHOR (PERSONAL BRANDING)
+# AUTHOR 
 # =========================================================
 
 st.markdown("## 👤 Author")
@@ -329,7 +329,7 @@ with col2:
 
 
 # =========================================================
-# 🔮 FUTURE ROADMAP
+# FUTURE ROADMAP
 # =========================================================
 
 st.markdown("## 🔮 Future Roadmap")
@@ -355,7 +355,7 @@ Goal: evolve into a <span class="highlight">fully production-ready AI decision p
 """, unsafe_allow_html=True)
 
 # =========================================================
-# 🏁 FOOTER
+# FOOTER
 # =========================================================
 
 st.markdown("---")

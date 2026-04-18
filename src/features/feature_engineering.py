@@ -36,12 +36,12 @@ def create_time_features(df):
 
 
 # ======================
-# 3. CUSTOMER FEATURES (LEAKAGE-SAFE ✅)
+# 3. CUSTOMER FEATURES (LEAKAGE-SAFE)
 # ======================
 def create_customer_features(df):
     df = df.copy()
 
-    # 🔥 CRITICAL: sort by customer + time
+    # sort by customer + time
     df = df.sort_values(["customer_id", "disbursement_date"])
 
     # Number of previous loans
@@ -59,7 +59,7 @@ def create_customer_features(df):
     # Total past loans
     df["total_loans"] = df["loan_count"]
 
-    # 🔥 SAFE default rate (no leakage)
+    # SAFE default rate (no leakage)
     df["safe_default_rate"] = (
         df["past_defaults"] /
         df["loan_count"].replace(0, np.nan)

@@ -1,5 +1,5 @@
 # =========================================================
-# 🐳 LOAN RISK INTELLIGENCE SYSTEM — PRODUCTION DOCKERFILE
+# LOAN RISK INTELLIGENCE SYSTEM — PRODUCTION DOCKERFILE
 # =========================================================
 
 # Use lightweight Python image
@@ -15,7 +15,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # =========================================================
-# SYSTEM DEPENDENCIES (for LightGBM, SHAP, etc.)
+# SYSTEM DEPENDENCIES (for LightGBM, SHAP)
 # =========================================================
 
 RUN apt-get update && apt-get install -y \

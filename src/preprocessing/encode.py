@@ -1,12 +1,12 @@
 # =========================================================
-# 🔄 ENCODING MODULE (PRODUCTION VERSION)
+# ENCODING MODULE (PRODUCTION VERSION)
 # =========================================================
 
 import pandas as pd
 
 
 # =========================================================
-# 🔹 IDENTIFY CATEGORICAL COLUMNS
+# IDENTIFY CATEGORICAL COLUMNS
 # =========================================================
 
 def get_categorical_columns(df):
@@ -18,7 +18,7 @@ def get_categorical_columns(df):
 
 
 # =========================================================
-# 🔹 CONSISTENT CATEGORY ENCODING
+# CONSISTENT CATEGORY ENCODING
 # =========================================================
 
 def encode_categoricals(train_df, test_df):
@@ -37,7 +37,7 @@ def encode_categoricals(train_df, test_df):
         test_df[col] = codes.iloc[len(train_df):].values
 
     # =========================
-    # 🔥 FORCE NUMERIC (CRITICAL FIX)
+    # FORCE NUMERIC
     # =========================
 
     # Convert bool → int
@@ -57,7 +57,7 @@ def encode_categoricals(train_df, test_df):
 
 
 # =========================================================
-# 🔹 SAFETY CHECKS
+# SAFETY CHECKS
 # =========================================================
 
 def validate_encoding(train_df, test_df):
@@ -78,7 +78,7 @@ def validate_encoding(train_df, test_df):
 
 
 # =========================================================
-# 🔹 FULL ENCODING PIPELINE
+# FULL ENCODING PIPELINE
 # =========================================================
 
 def run_encoding(train_df, test_df):
@@ -98,7 +98,7 @@ def run_encoding(train_df, test_df):
 
 
 # =========================================================
-# 🧪 DEBUG ENTRY POINT
+# DEBUG ENTRY POINT
 # =========================================================
 
 if __name__ == "__main__":

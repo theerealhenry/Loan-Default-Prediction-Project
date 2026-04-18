@@ -1,5 +1,5 @@
 # =========================================================
-# 🔮 PREDICTION CLI ENTRYPOINT (PRODUCTION READY)
+# PREDICTION CLI ENTRYPOINT (PRODUCTION READY)
 # =========================================================
 
 import argparse
@@ -16,7 +16,7 @@ from src.modeling.predict import predict_to_submission
 
 
 # =========================================================
-# 🔹 LOAD INPUT DATA
+#LOAD INPUT DATA
 # =========================================================
 
 def load_input_data(path):
@@ -35,7 +35,7 @@ def load_input_data(path):
 
 
 # =========================================================
-# 🔹 SAVE OUTPUT
+#SAVE OUTPUT
 # =========================================================
 
 def save_output(df, path):
@@ -49,7 +49,7 @@ def save_output(df, path):
 
 
 # =========================================================
-# 🔹 MAIN FUNCTION
+# MAIN FUNCTION
 # =========================================================
 
 def run_prediction(input_path, output_path, model_dir="models", id_col="ID"):
@@ -91,7 +91,7 @@ def run_prediction(input_path, output_path, model_dir="models", id_col="ID"):
 
 
 # =========================================================
-# 🔹 CLI ENTRYPOINT
+# CLI ENTRYPOINT
 # =========================================================
 
 if __name__ == "__main__":

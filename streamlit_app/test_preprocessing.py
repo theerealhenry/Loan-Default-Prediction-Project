@@ -1,5 +1,5 @@
 # =========================================================
-# 🧪 PREPROCESSING TEST SUITE
+# PREPROCESSING TEST SUITE
 # =========================================================
 
 import pandas as pd
@@ -10,7 +10,7 @@ print("=" * 60)
 
 
 # =========================================================
-# 🔹 TEST 1 — MISSING COLUMNS
+# TEST 1 — MISSING COLUMNS
 # =========================================================
 
 print("\n🔹 TEST 1: Missing Columns")
@@ -30,7 +30,7 @@ print("✅ PASS: Missing columns handled")
 
 
 # =========================================================
-# 🔹 TEST 2 — WRONG DATA TYPES
+# TEST 2 — WRONG DATA TYPES
 # =========================================================
 
 print("\n🔹 TEST 2: Wrong Data Types")
@@ -56,7 +56,7 @@ except Exception as e:
 
 
 # =========================================================
-# 🔹 TEST 3 — NEGATIVE VALUES
+# TEST 3 — NEGATIVE VALUES
 # =========================================================
 
 print("\n🔹 TEST 3: Negative Values")
@@ -78,7 +78,7 @@ print("✅ PASS: Negative values handled")
 
 
 # =========================================================
-# 🔹 TEST 4 — EXTREME VALUES (BONUS 🔥)
+# TEST 4 — EXTREME VALUES 
 # =========================================================
 
 print("\n🔹 TEST 4: Extreme Values")
@@ -97,7 +97,7 @@ print("✅ PASS: Extreme values handled")
 
 
 # =========================================================
-# 🔹 TEST 5 — FULL PIPELINE COMPATIBILITY
+# TEST 5 — FULL PIPELINE COMPATIBILITY
 # =========================================================
 
 print("\n🔹 TEST 5: Full Pipeline Compatibility")

@@ -1,5 +1,5 @@
 # =========================================================
-# 🚀 TRAINING CLI ENTRYPOINT (PRODUCTION READY)
+# TRAINING CLI ENTRYPOINT (PRODUCTION READY)
 # =========================================================
 
 import argparse
@@ -15,7 +15,7 @@ from src.modeling.train import train_model
 
 
 # =========================================================
-# 🔹 LOAD CONFIG
+# LOAD CONFIG
 # =========================================================
 
 def load_config(config_path):
@@ -33,7 +33,7 @@ def load_config(config_path):
 
 
 # =========================================================
-# 🔹 FEATURE SELECTION
+# FEATURE SELECTION
 # =========================================================
 
 def select_features(df, config):
@@ -46,7 +46,7 @@ def select_features(df, config):
 
 
 # =========================================================
-# 🔹 MAIN TRAINING FUNCTION
+# MAIN TRAINING FUNCTION
 # =========================================================
 
 def run_training(config_path):
@@ -101,7 +101,7 @@ def run_training(config_path):
     X, X_test = encode_categoricals(X, X_test)
 
 # =========================================================
-# 🔥 FINAL HARD FIX — FORCE FULL NUMERIC DATA
+# FORCE FULL NUMERIC DATA
 # =========================================================
 
     # Convert categorical/object → numeric explicitly
@@ -125,7 +125,7 @@ def run_training(config_path):
     X_test = X_test.fillna(0)
 
     # =========================
-    # 🔍 FINAL DEBUG (MUST BE EMPTY)
+    # FINAL DEBUG (MUST BE EMPTY)
     # =========================
     print("\n🚨 FINAL CHECK (ABSOLUTE):")
     print(X.dtypes.value_counts())
@@ -154,7 +154,7 @@ def run_training(config_path):
 
 
 # =========================================================
-# 🔹 CLI ENTRYPOINT
+# CLI ENTRYPOINT
 # =========================================================
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 # =========================================================
-# 📊 BATCH LOAN RISK ANALYTICS DASHBOARD (ELITE SYSTEM)
+# BATCH LOAN RISK ANALYTICS DASHBOARD
 # =========================================================
 
 import streamlit as st
@@ -19,7 +19,7 @@ from utils.visualization import (
 )
 
 # =========================================================
-# 🔥 PAGE CONFIG
+# PAGE CONFIG
 # =========================================================
 
 st.set_page_config(
@@ -28,7 +28,7 @@ st.set_page_config(
 )
 
 # =========================================================
-# 🎨 UI STYLING
+# UI STYLING
 # =========================================================
 
 st.markdown("""
@@ -43,7 +43,7 @@ h1, h2, h3 {
 """, unsafe_allow_html=True)
 
 # =========================================================
-# 🏠 HEADER
+# HEADER
 # =========================================================
 
 st.title("📊 Portfolio Risk Analytics Dashboard")
@@ -52,7 +52,7 @@ st.markdown("### Batch Loan Default Prediction & Risk Intelligence")
 st.markdown("---")
 
 # =========================================================
-# 📘 USER GUIDE
+# USER GUIDE
 # =========================================================
 
 with st.expander("📘 How to Use This Dashboard"):
@@ -75,7 +75,7 @@ This system expects **feature-aligned data (same as training pipeline)**.
 """)
 
 # =========================================================
-# 📌 EXPECTED FORMAT (ELITE UX ADDITION)
+# EXPECTED FORMAT
 # =========================================================
 
 st.markdown("### 📌 Expected Input Format")
@@ -96,7 +96,7 @@ Additional engineered features may be required internally.
 """)
 
 # =========================================================
-# 📂 FILE UPLOAD
+# 📂FILE UPLOAD
 # =========================================================
 
 uploaded_file = st.file_uploader(
@@ -105,7 +105,7 @@ uploaded_file = st.file_uploader(
 )
 
 # =========================================================
-# 🔍 LOAD DATA
+# LOAD DATA
 # =========================================================
 
 def load_data(file):
@@ -114,7 +114,7 @@ def load_data(file):
     return pd.read_parquet(file)
 
 # =========================================================
-# 🚀 PROCESS
+# PROCESS
 # =========================================================
 
 if uploaded_file:
@@ -129,7 +129,7 @@ if uploaded_file:
     st.markdown("---")
 
     # =====================================================
-    # 🔍 SCHEMA VALIDATION (CRITICAL FIX)
+    # SCHEMA VALIDATION (CRITICAL FIX)
     # =====================================================
 
     required_cols = [
@@ -174,7 +174,7 @@ if uploaded_file:
         st.markdown("---")
 
         # =================================================
-        # 📊 KPI DASHBOARD
+        # KPI DASHBOARD
         # =================================================
 
         st.markdown("## 📊 Key Portfolio Metrics")
@@ -189,7 +189,7 @@ if uploaded_file:
         st.markdown("---")
 
         # =================================================
-        # 📉 DISTRIBUTION
+        # DISTRIBUTION
         # =================================================
 
         st.markdown("## 📉 Risk Distribution")
@@ -200,7 +200,7 @@ if uploaded_file:
         st.markdown("---")
 
         # =================================================
-        # 🧠 SEGMENTATION
+        # SEGMENTATION
         # =================================================
 
         st.markdown("## 🧠 Risk Segmentation")
@@ -227,7 +227,7 @@ if uploaded_file:
         st.markdown("---")
 
         # =================================================
-        # 🔴 HIGH RISK TABLE
+        # HIGH RISK TABLE
         # =================================================
 
         st.markdown("## 🔴 High Risk Loans (Priority Review)")
@@ -242,7 +242,7 @@ if uploaded_file:
         st.markdown("---")
 
         # =================================================
-        # 💾 EXPORT
+        # EXPORT
         # =================================================
 
         st.markdown("## 💾 Export Results")
@@ -259,7 +259,7 @@ if uploaded_file:
         st.markdown("---")
 
         # =================================================
-        # 📌 INSIGHTS ENGINE
+        # INSIGHTS ENGINE
         # =================================================
 
         st.markdown("## 📌 Portfolio Insights")

@@ -1,5 +1,5 @@
 # =========================================================
-# 🧠 MODEL INSIGHTS DASHBOARD (ELITE & STABLE)
+# MODEL INSIGHTS DASHBOARD
 # =========================================================
 
 import streamlit as st
@@ -16,7 +16,7 @@ from utils.inference import load_system, load_config
 from src.modeling.predict import prepare_input
 
 # =========================================================
-# 🔥 PAGE CONFIG
+# PAGE CONFIG
 # =========================================================
 
 st.set_page_config(
@@ -25,7 +25,7 @@ st.set_page_config(
 )
 
 # =========================================================
-# 🎨 UI STYLING
+# UI STYLING
 # =========================================================
 
 st.markdown("""
@@ -45,7 +45,7 @@ h1, h2, h3 {
 """, unsafe_allow_html=True)
 
 # =========================================================
-# 📦 LOAD SYSTEM (SAFE CACHE)
+# LOAD SYSTEM (SAFE CACHE)
 # =========================================================
 
 @st.cache_resource
@@ -57,7 +57,7 @@ def load_all():
 model, FEATURES, THRESHOLD, config = load_all()
 
 # =========================================================
-# 📂 LOAD SAMPLE DATA
+# LOAD SAMPLE DATA
 # =========================================================
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -75,7 +75,7 @@ def load_sample():
 sample_df = load_sample()
 
 # =========================================================
-# 🏠 HEADER
+# HEADER
 # =========================================================
 
 st.title("🧠 AI Explainability Dashboard")
@@ -83,7 +83,7 @@ st.markdown("### Deep Model Intelligence & Risk Interpretation")
 st.markdown("---")
 
 # =========================================================
-# 📊 MODEL FEATURE IMPORTANCE
+# MODEL FEATURE IMPORTANCE
 # =========================================================
 
 st.markdown("## 📊 Model Feature Importance")
@@ -102,7 +102,7 @@ except Exception:
 st.markdown("---")
 
 # =========================================================
-# 🧠 SHAP ENGINE
+# SHAP ENGINE
 # =========================================================
 
 st.markdown("## 🧠 SHAP Explainability Engine")
@@ -112,7 +112,7 @@ if sample_df is None:
     st.stop()
 
 # =========================================================
-# 🔧 PREPROCESS PIPELINE
+# PREPROCESS PIPELINE
 # =========================================================
 
 df_clean = preprocess_dataframe(sample_df)
@@ -125,7 +125,7 @@ X_sample = X_sample.reindex(columns=FEATURES, fill_value=0)
 X_sample = X_sample.sample(min(150, len(X_sample)), random_state=42)
 
 # =========================================================
-# 🔥 SHAP COMPUTATION (NO CACHING HERE)
+# SHAP COMPUTATION
 # =========================================================
 
 with st.spinner("Computing SHAP values..."):
@@ -133,7 +133,7 @@ with st.spinner("Computing SHAP values..."):
     shap_values = explainer.shap_values(X_sample)
 
 # =========================================================
-# 🔧 CLEAN SHAP OUTPUT
+# SHAP OUTPUT
 # =========================================================
 
 if isinstance(shap_values, list):
@@ -147,7 +147,7 @@ if isinstance(expected_value, list):
     expected_value = expected_value[1]
 
 # =========================================================
-# 🌍 GLOBAL EXPLAINABILITY
+# GLOBAL EXPLAINABILITY
 # =========================================================
 
 st.markdown("## 🌍 Global Feature Impact")
@@ -166,7 +166,7 @@ except Exception as e:
     st.error(f"SHAP global error: {e}")
 
 # =========================================================
-# 🔥 SHAP SUMMARY (BEESWARM)
+# SHAP SUMMARY (BEESWARM)
 # =========================================================
 
 st.markdown("### 🔥 SHAP Summary (Beeswarm)")
@@ -180,7 +180,7 @@ except Exception as e:
     st.warning(f"Summary plot error: {e}")
 
 # =========================================================
-# 🔥 SHAP BAR PLOT
+# SHAP BAR PLOT
 # =========================================================
 
 st.markdown("### 📊 SHAP Global Importance")
@@ -196,7 +196,7 @@ except Exception as e:
 st.markdown("---")
 
 # =========================================================
-# 🔍 LOCAL EXPLAINABILITY
+# LOCAL EXPLAINABILITY
 # =========================================================
 
 st.markdown("## 🔍 Individual Prediction Analysis")
@@ -212,7 +212,7 @@ if isinstance(single_shap, list):
 single_shap = np.array(single_shap).flatten()
 
 # =========================================================
-# 📊 CONTRIBUTION TABLE
+# CONTRIBUTION TABLE
 # =========================================================
 
 contrib_df = pd.DataFrame({
@@ -224,14 +224,14 @@ st.markdown("### 📊 Feature Contributions")
 st.dataframe(contrib_df.head(15), use_container_width=True)
 
 # =========================================================
-# 📈 CONTRIBUTION BAR
+# CONTRIBUTION BAR
 # =========================================================
 
 st.markdown("### 📈 Contribution Chart")
 st.bar_chart(contrib_df.set_index("Feature").head(10))
 
 # =========================================================
-# 🌊 WATERFALL PLOT (FIXED)
+# WATERFALL PLOT 
 # =========================================================
 
 st.markdown("### 🌊 SHAP Waterfall")
@@ -249,7 +249,7 @@ except Exception as e:
     st.warning(f"Waterfall error: {e}")
 
 # =========================================================
-# ⚡ FORCE PLOT (INTERACTIVE)
+# FORCE PLOT
 # =========================================================
 
 st.markdown("### ⚡ SHAP Force Plot")
@@ -268,7 +268,7 @@ except Exception as e:
     st.warning(f"Force plot error: {e}")
 
 # =========================================================
-# 🧠 INTERPRETATION ENGINE
+# INTERPRETATION ENGINE
 # =========================================================
 
 st.markdown("## 🧠 AI Interpretation")
@@ -289,7 +289,7 @@ with col2:
         st.write(f"• {r['Feature']} ({r['Contribution']:.4f})")
 
 # =========================================================
-# 📈 MODEL SUMMARY
+# MODEL SUMMARY
 # =========================================================
 
 st.markdown("---")

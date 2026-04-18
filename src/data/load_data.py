@@ -11,7 +11,7 @@ import yaml
 # CONFIG LOADER
 # =========================================================
 
-def load_config(config_path="configs/config_final.yaml"):
+def load_config(config_path="D:/AI4EAC- Loan_default_prediction/configs/config_final.yaml"):
     with open(config_path, "r") as f:
         return yaml.safe_load(f)
 

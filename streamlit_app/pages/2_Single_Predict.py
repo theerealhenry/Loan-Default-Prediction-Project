@@ -1,5 +1,5 @@
 # =========================================================
-# 🔮 SINGLE LOAN RISK PREDICTION (ELITE SYSTEM)
+# SINGLE LOAN RISK PREDICTION
 # =========================================================
 
 import streamlit as st
@@ -10,7 +10,7 @@ from utils.inference import run_single_inference
 from utils.visualization import plot_probability_gauge
 
 # =========================================================
-# 🔥 PAGE CONFIG
+# PAGE CONFIG
 # =========================================================
 
 st.set_page_config(
@@ -19,7 +19,7 @@ st.set_page_config(
 )
 
 # =========================================================
-# 🎨 ELITE UI STYLING
+# UI STYLING
 # =========================================================
 
 st.markdown("""
@@ -44,7 +44,7 @@ h1, h2, h3 {
 """, unsafe_allow_html=True)
 
 # =========================================================
-# 🏠 HEADER
+# HEADER
 # =========================================================
 
 st.title("🔮 Loan Risk Prediction Engine")
@@ -68,7 +68,7 @@ with st.expander("📘 Input Guide (How to Use This Tool)"):
 st.markdown("---")
 
 # =========================================================
-# 🧾 INPUT SECTION
+# INPUT SECTION
 # =========================================================
 
 st.markdown("## 🧾 Loan Input Parameters")
@@ -76,7 +76,7 @@ st.markdown("## 🧾 Loan Input Parameters")
 col1, col2 = st.columns(2)
 
 # =========================
-# 💰 FINANCIAL
+# FINANCIAL
 # =========================
 with col1:
     st.markdown('<div class="section-card">', unsafe_allow_html=True)
@@ -103,7 +103,7 @@ with col1:
     st.markdown('</div>', unsafe_allow_html=True)
 
 # =========================
-# 📅 STRUCTURE
+# STRUCTURE
 # =========================
 with col2:
     st.markdown('<div class="section-card">', unsafe_allow_html=True)
@@ -131,7 +131,7 @@ with st.expander("📘 Loan Type Guide"):
     These categories influence how the model evaluates default probability.
     """)
 # =========================
-# 🌍 MACRO (🔥 FIXED HERE)
+# MACRO
 # =========================
 
 st.markdown('<div class="section-card">', unsafe_allow_html=True)
@@ -150,7 +150,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 st.markdown("---")
 
 # =========================================================
-# 📦 BUILD INPUT DATA
+# BUILD INPUT DATA
 # =========================================================
 
 input_dict = {
@@ -167,7 +167,7 @@ input_dict = {
 }
 
 # =========================================================
-# 🚀 PREDICTION BUTTON
+# PREDICTION BUTTON
 # =========================================================
 if total_repay < total_amount:
     st.warning("⚠️ Repayment amount is less than loan amount — check input")
@@ -193,7 +193,7 @@ if st.button("🚀 Analyze Risk"):
     st.markdown("## 📊 Risk Assessment Results")
 
     # =====================================================
-    # 🎯 METRICS
+    # METRICS
     # =====================================================
 
     col1, col2, col3 = st.columns(3)
@@ -208,7 +208,7 @@ if st.button("🚀 Analyze Risk"):
         st.metric("Classification", "Default" if pred else "Safe")
 
     # =====================================================
-    # 📊 GAUGE
+    # GAUGE
     # =====================================================
 
     st.markdown("### 🎯 Risk Gauge")
@@ -217,7 +217,7 @@ if st.button("🚀 Analyze Risk"):
     st.pyplot(fig)
 
     # =====================================================
-    # 🚦 STATUS
+    # STATUS
     # =====================================================
 
     st.markdown("### 🚦 Risk Status")
@@ -232,7 +232,7 @@ if st.button("🚀 Analyze Risk"):
         st.success("🟢 LOW RISK — Acceptable borrower")
 
     # =====================================================
-    # 🧠 INSIGHTS
+    # INSIGHTS
     # =====================================================
 
     st.markdown("## 🧠 Risk Drivers")
@@ -261,7 +261,7 @@ if st.button("🚀 Analyze Risk"):
         st.write(f"• {insight}")
 
     # =====================================================
-    # 📌 DECISION
+    # DECISION
     # =====================================================
 
     st.markdown("## 📌 Decision Recommendation")

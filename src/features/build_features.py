@@ -1,5 +1,5 @@
 # =========================================================
-# 🧠 FEATURE BUILDING PIPELINE (PRODUCTION VERSION)
+# FEATURE BUILDING PIPELINE (PRODUCTION VERSION)
 # =========================================================
 
 import pandas as pd
@@ -7,7 +7,7 @@ import numpy as np
 
 
 # =========================================================
-# 🔹 FINANCIAL FEATURES
+# FINANCIAL FEATURES
 # =========================================================
 
 def create_financial_features(df):
@@ -27,7 +27,7 @@ def create_financial_features(df):
 
 
 # =========================================================
-# 🔹 TEMPORAL FEATURES
+# TEMPORAL FEATURES
 # =========================================================
 
 def create_time_features(df):
@@ -43,19 +43,19 @@ def create_time_features(df):
 
 
 # =========================================================
-# 🔹 CUSTOMER FEATURES (DISABLED IN PRODUCTION 🚫)
+# CUSTOMER FEATURES (DISABLED IN PRODUCTION)
 # =========================================================
 
 def create_customer_features(df):
     """
-    ⚠️ Disabled in production due to leakage risk.
+    Disabled in production due to leakage risk.
     Kept for experimentation reference only.
     """
     return df
 
 
 # =========================================================
-# 🔹 CATEGORICAL FEATURES
+# CATEGORICAL FEATURES
 # =========================================================
 
 def create_categorical_features(df):
@@ -69,7 +69,7 @@ def create_categorical_features(df):
 
 
 # =========================================================
-# 🔹 INTERACTION FEATURES
+# INTERACTION FEATURES
 # =========================================================
 
 def create_interactions(df):
@@ -84,7 +84,7 @@ def create_interactions(df):
 
 
 # =========================================================
-# 🔹 FEATURE SELECTION (CONFIG-DRIVEN)
+# FEATURE SELECTION (CONFIG-DRIVEN)
 # =========================================================
 
 def select_features(df, config):
@@ -107,7 +107,7 @@ def select_features(df, config):
 
 
 # =========================================================
-# 🔹 FINAL FEATURE ALIGNMENT
+# FINAL FEATURE ALIGNMENT
 # =========================================================
 
 def align_features(train_df, test_df, config):
@@ -124,7 +124,7 @@ def align_features(train_df, test_df, config):
 
 
 # =========================================================
-# 🔹 FULL PIPELINE
+# FULL PIPELINE
 # =========================================================
 
 def build_features(train_df, test_df, config):
@@ -162,7 +162,7 @@ def build_features(train_df, test_df, config):
 
 
 # =========================================================
-# 🧪 DEBUG ENTRY POINT
+# DEBUG ENTRY POINT
 # =========================================================
 
 if __name__ == "__main__":

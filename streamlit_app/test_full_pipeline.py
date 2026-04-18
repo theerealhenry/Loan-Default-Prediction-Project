@@ -1,11 +1,11 @@
 # =========================================================
-# 🧪 FULL PIPELINE TEST (PREPROCESS + INFERENCE)
+# FULL PIPELINE TEST (PREPROCESS + INFERENCE)
 # =========================================================
 
 import sys
 import os
 
-# Get absolute path to project root (VERY IMPORTANT)
+# Get absolute path to project root 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 sys.path.append(PROJECT_ROOT)
@@ -20,7 +20,7 @@ print("=" * 60)
 
 
 # =========================================================
-# 🔹 LOAD REAL DATA
+# LOAD DATA
 # =========================================================
 
 df = pd.read_parquet("data/processed/test_merged.parquet").head(50)
@@ -29,7 +29,7 @@ print("\n📂 Raw input shape:", df.shape)
 
 
 # =========================================================
-# 🔹 PREPROCESSING
+# PREPROCESSING
 # =========================================================
 
 df_clean = preprocess_dataframe(df)
@@ -40,7 +40,7 @@ print("Columns:", df_clean.columns.tolist())
 
 
 # =========================================================
-# 🔹 INFERENCE
+# INFERENCE
 # =========================================================
 
 results = run_inference(df_clean)
@@ -59,7 +59,7 @@ print(results["risk_levels"][:10])
 
 
 # =========================================================
-# 🔹 VALIDATION CHECKS (CRITICAL)
+# VALIDATION CHECKS 
 # =========================================================
 
 assert len(results["predictions"]) == len(df_clean), "❌ Prediction length mismatch"
@@ -71,7 +71,7 @@ print("\n✅ PASS: Output sizes correct")
 
 
 # =========================================================
-# 🔹 EDGE CHECK — NO NaNs
+# EDGE CHECK — NO NaNs
 # =========================================================
 
 import numpy as np

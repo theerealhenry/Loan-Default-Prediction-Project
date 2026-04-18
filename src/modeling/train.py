@@ -1,5 +1,5 @@
 # =========================================================
-# 🧠 MODEL TRAINING PIPELINE (PRODUCTION READY)
+# MODEL TRAINING PIPELINE (PRODUCTION READY)
 # =========================================================
 
 import numpy as np
@@ -17,7 +17,7 @@ from src.modeling.modeling import get_time_splits
 
 
 # =========================================================
-# 🔹 THRESHOLD OPTIMIZATION
+# THRESHOLD OPTIMIZATION
 # =========================================================
 
 def optimize_threshold(y_true, preds, start=0.05, end=0.5, step=0.01):
@@ -33,7 +33,7 @@ def optimize_threshold(y_true, preds, start=0.05, end=0.5, step=0.01):
 
 
 # =========================================================
-# 🔹 TIME-BASED CV ENGINE
+# TIME-BASED CV ENGINE
 # =========================================================
 
 def run_cv(model, X, y, df, X_test, config):
@@ -96,7 +96,7 @@ def run_cv(model, X, y, df, X_test, config):
 
 
 # =========================================================
-# 🔹 FINAL TRAINING FUNCTION
+# FINAL TRAINING FUNCTION
 # =========================================================
 
 def train_model(X, y, df, X_test, config):

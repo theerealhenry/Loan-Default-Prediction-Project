@@ -1,5 +1,5 @@
 # =========================================================
-# 🧪 VISUALIZATION ENGINE TEST
+# VISUALIZATION ENGINE TEST
 # =========================================================
 
 import sys
@@ -21,7 +21,7 @@ print("=" * 60)
 
 
 # =========================================================
-# 🔹 LOAD DATA
+# LOAD DATA
 # =========================================================
 
 df = pd.read_parquet("data/processed/test_merged.parquet").head(100)
@@ -30,7 +30,7 @@ print("\n📂 Loaded data shape:", df.shape)
 
 
 # =========================================================
-# 🔹 RUN INFERENCE
+# RUN INFERENCE
 # =========================================================
 
 results = run_inference(df)
@@ -42,7 +42,7 @@ print("Sample probabilities:", probs[:5])
 
 
 # =========================================================
-# 🔹 PLOT TEST
+# PLOT TEST
 # =========================================================
 
 print("\n📊 Generating risk distribution plot...")
@@ -57,7 +57,7 @@ print("✅ PASS: Plot rendered successfully")
 
 
 # =========================================================
-# 🔹 EDGE CASE TEST (EMPTY INPUT)
+# EDGE CASE TEST (EMPTY INPUT)
 # =========================================================
 
 print("\n🔹 Testing empty input...")
@@ -70,7 +70,7 @@ except Exception as e:
 
 
 # =========================================================
-# 🔹 EDGE CASE TEST (CONSTANT VALUES)
+# EDGE CASE TEST (CONSTANT VALUES)
 # =========================================================
 
 print("\n🔹 Testing constant probabilities...")

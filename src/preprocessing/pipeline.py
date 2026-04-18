@@ -1,8 +1,8 @@
 import sys, os
 sys.path.append(os.path.abspath(".."))
 
-from src.preprocessing import preprocess
-from src.feature_engineering import feature_engineering
+from src.preprocessing.preprocessing import preprocess
+from src.features.feature_engineering import feature_engineering
 
 
 def full_pipeline(train, test):
